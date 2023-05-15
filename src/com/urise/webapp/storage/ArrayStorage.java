@@ -3,14 +3,16 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10000;
+    private static final int INDEX_MISSING_RESUME = -1;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
+    private int indexFound;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -18,82 +20,46 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size == storage.length) {
+        indexFound = getIndex(r.getUuid());
+        if (size >= STORAGE_LIMIT) {
             System.out.println("The resume database is full");
+        } else if (indexFound != INDEX_MISSING_RESUME) {
+            System.out.println("There is already such a resume");
         } else {
-            if (searchResume(r)) {
-                System.out.println("There is already such a resume");
-            } else {
-                storage[size] = r;
-                size++;
-            }
+            storage[size] = r;
+            size++;
         }
     }
 
     public Resume get(String uuid) {
-        if (searchUuid(uuid)) {
-            for (int i = 0; i < size; i++) {
-                if (uuid.equals(storage[i].getUuid())) {
-                    return storage[i];
-                }
-            }
+        indexFound = getIndex(uuid);
+        if (indexFound != INDEX_MISSING_RESUME) {
+            return storage[indexFound];
         } else {
             printResumeNotFound(uuid);
         }
         return null;
     }
 
-    private void printResumeNotFound(String uuid) {
-        System.out.println(uuid + " not found");
-    }
-
     public void update(Resume r) {
-        Scanner scanner = new Scanner(System.in);
-        if (!searchResume(r)) {
+        indexFound = getIndex(r.getUuid());
+        if (indexFound == INDEX_MISSING_RESUME) {
             System.out.println("Resume not found");
         } else {
-            for (int i = 0; i < size; i++) {
-                if (r == storage[i]) {
-                    System.out.println("Enter a new uuid");
-                    String uuid = scanner.nextLine();
-                    storage[i].setUuid(uuid);
-                }
-            }
+            storage[indexFound] = r;
         }
-    }
-
-    private boolean searchResume(Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (r == storage[i]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    private boolean searchUuid(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void delete(String uuid) {
-        if (searchUuid(uuid)) {
-            for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    System.arraycopy(storage, i + 1, storage, i, size - i - 1);
-                    storage[size - 1] = null;
-                    size--;
-                    break;
-                }
-            }
+        indexFound = getIndex(uuid);
+        if (indexFound != INDEX_MISSING_RESUME) {
+            System.arraycopy(storage, indexFound + 1, storage, indexFound, size - indexFound - 1);
+            storage[size - 1] = null;
+            size--;
         } else {
             printResumeNotFound(uuid);
         }
+
     }
 
     /**
@@ -105,5 +71,18 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    private int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
+                return i;
+            }
+        }
+        return INDEX_MISSING_RESUME;
+    }
+
+    private void printResumeNotFound(String uuid) {
+        System.out.println(uuid + " not found");
     }
 }
