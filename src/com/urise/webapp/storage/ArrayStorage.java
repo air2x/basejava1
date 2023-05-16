@@ -12,7 +12,6 @@ public class ArrayStorage {
     private static final int INDEX_MISSING_RESUME = -1;
     private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
-    private int indexFound;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -20,7 +19,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        indexFound = getIndex(r.getUuid());
+        int indexFound = getIndex(r.getUuid());
         if (size >= STORAGE_LIMIT) {
             System.out.println("The resume database is full");
         } else if (indexFound != INDEX_MISSING_RESUME) {
@@ -32,7 +31,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        indexFound = getIndex(uuid);
+        int indexFound = getIndex(uuid);
         if (indexFound != INDEX_MISSING_RESUME) {
             return storage[indexFound];
         } else {
@@ -42,7 +41,7 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        indexFound = getIndex(r.getUuid());
+        int indexFound = getIndex(r.getUuid());
         if (indexFound == INDEX_MISSING_RESUME) {
             System.out.println("Resume not found");
         } else {
@@ -51,7 +50,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        indexFound = getIndex(uuid);
+        int indexFound = getIndex(uuid);
         if (indexFound != INDEX_MISSING_RESUME) {
             System.arraycopy(storage, indexFound + 1, storage, indexFound, size - indexFound - 1);
             storage[size - 1] = null;
@@ -59,7 +58,6 @@ public class ArrayStorage {
         } else {
             printResumeNotFound(uuid);
         }
-
     }
 
     /**
