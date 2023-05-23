@@ -5,7 +5,7 @@ import com.urise.webapp.model.Resume;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage extends AbstractArrayStorage implements Storage {
+public class ArrayStorage extends AbstractArrayStorage {
 
     public Resume get(String uuid) {
         int indexFound = getIndex(uuid);
