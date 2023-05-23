@@ -29,35 +29,13 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume r) {
-        int indexFound = getIndex(r.getUuid());
-        if (size >= STORAGE_LIMIT) {
-            System.out.println("The resume database is full");
-        } else if (indexFound != INDEX_MISSING_RESUME) {
-            System.out.println("There is already such a resume");
-        } else {
-            storage[size] = r;
-            size++;
-        }
     }
 
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index == INDEX_MISSING_RESUME) {
-            System.out.println("Resume " + uuid + " not exist");
-            return null;
-        }
-        return storage[index];
+        return null;
     }
 
     public void delete(String uuid) {
-        int indexFound = getIndex(uuid);
-        if (indexFound != INDEX_MISSING_RESUME) {
-            System.arraycopy(storage, indexFound + 1, storage, indexFound, size - indexFound - 1);
-            storage[size - 1] = null;
-            size--;
-        } else {
-            printResumeNotFound(uuid);
-        }
     }
 
     public Resume[] getAll() {
