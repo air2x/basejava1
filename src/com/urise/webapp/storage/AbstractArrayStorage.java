@@ -10,16 +10,16 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    public int size() {
+    public final int size() {
         return size;
     }
 
-    public void clear() {
+    public final void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void update(Resume r) {
+    public final void update(Resume r) {
         int indexFound = getIndex(r.getUuid());
         if (indexFound <= INDEX_MISSING_RESUME) {
             System.out.println("Resume not found");
@@ -28,23 +28,35 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void save(Resume r) {
+    public abstract void save(Resume r);
+
+    public final Resume get(String uuid) {
+        int indexFound = getIndex(uuid);
+        if (indexFound <= INDEX_MISSING_RESUME) {
+            System.out.println("Resume " + uuid + " not exist");
+            return null;
+        }
+        return storage[indexFound];
     }
 
-    public Resume get(String uuid) {
-        return null;
+    public final void delete(String uuid) {
+        int indexFound = getIndex(uuid);
+        if (indexFound > INDEX_MISSING_RESUME) {
+            System.arraycopy(storage, indexFound + 1, storage, indexFound, size - indexFound - 1);
+            storage[size - 1] = null;
+            size--;
+        } else {
+            printResumeNotFound(uuid);
+        }
     }
 
-    public void delete(String uuid) {
-    }
-
-    public Resume[] getAll() {
+    public final Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
     protected abstract int getIndex(String uuid);
 
-    protected void printResumeNotFound(String uuid) {
+    protected final void printResumeNotFound(String uuid) {
         System.out.println(uuid + " not found");
     }
 }

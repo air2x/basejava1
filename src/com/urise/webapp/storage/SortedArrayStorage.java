@@ -21,26 +21,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    public Resume get(String uuid) {
-        int indexFound = getIndex(uuid);
-        if (indexFound <= INDEX_MISSING_RESUME) {
-            System.out.println("Resume " + uuid + " not exist");
-            return null;
-        }
-        return storage[indexFound];
-    }
-
-    public void delete(String uuid) {
-        int indexFound = getIndex(uuid);
-        if (indexFound > INDEX_MISSING_RESUME) {
-            System.arraycopy(storage, indexFound + 1, storage, indexFound, size - indexFound - 1);
-            storage[size - 1] = null;
-            size--;
-        } else {
-            printResumeNotFound(uuid);
-        }
-    }
-
     @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume();
