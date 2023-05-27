@@ -20,31 +20,38 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public final void update(Resume r) {
-        int indexFound = getIndex(r.getUuid());
-        if (indexFound <= INDEX_MISSING_RESUME) {
+        int index = getIndex(r.getUuid());
+        if (index <= INDEX_MISSING_RESUME) {
             System.out.println("Resume not found");
         } else {
-            storage[indexFound] = r;
+            storage[index] = r;
         }
     }
 
-    public abstract void save(Resume r);
+    public final void save(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (size >= STORAGE_LIMIT) {
+            System.out.println("The resume database is full");
+        } else if (index <= INDEX_MISSING_RESUME) {
+            saveResume(index, r);
+        } else {
+            System.out.println("There is already such a resume");
+        }
+    }
 
     public final Resume get(String uuid) {
-        int indexFound = getIndex(uuid);
-        if (indexFound <= INDEX_MISSING_RESUME) {
+        int index = getIndex(uuid);
+        if (index <= INDEX_MISSING_RESUME) {
             System.out.println("Resume " + uuid + " not exist");
             return null;
         }
-        return storage[indexFound];
+        return storage[index];
     }
 
     public final void delete(String uuid) {
-        int indexFound = getIndex(uuid);
-        if (indexFound > INDEX_MISSING_RESUME) {
-            System.arraycopy(storage, indexFound + 1, storage, indexFound, size - indexFound - 1);
-            storage[size - 1] = null;
-            size--;
+        int index = getIndex(uuid);
+        if (index > INDEX_MISSING_RESUME) {
+            deleteResume(index);
         } else {
             printResumeNotFound(uuid);
         }
@@ -55,6 +62,10 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected abstract int getIndex(String uuid);
+
+    protected abstract void deleteResume(int index);
+
+    protected abstract void saveResume(int index, Resume r);
 
     protected final void printResumeNotFound(String uuid) {
         System.out.println(uuid + " not found");

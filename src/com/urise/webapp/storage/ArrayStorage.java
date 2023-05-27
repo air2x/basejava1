@@ -7,16 +7,16 @@ import com.urise.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume r) {
-        int indexFound = getIndex(r.getUuid());
-        if (size >= STORAGE_LIMIT) {
-            System.out.println("The resume database is full");
-        } else if (indexFound != INDEX_MISSING_RESUME) {
-            System.out.println("There is already such a resume");
-        } else {
-            storage[size] = r;
-            size++;
-        }
+    protected void saveResume(int index, Resume r) {
+        index = size;
+        storage[index] = r;
+        size++;
+    }
+
+    protected void deleteResume(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+        storage[size - 1] = null;
+        size--;
     }
 
     protected int getIndex(String uuid) {
