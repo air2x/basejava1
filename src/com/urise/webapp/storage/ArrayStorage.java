@@ -25,6 +25,6 @@ public class ArrayStorage extends AbstractArrayStorage {
                 return i;
             }
         }
-        return INDEX_MISSING_RESUME;
+        return -1;
     }
 }

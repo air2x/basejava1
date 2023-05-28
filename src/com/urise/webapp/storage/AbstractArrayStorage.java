@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10000;
-    protected static final int INDEX_MISSING_RESUME = -1;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
@@ -21,7 +20,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final void update(Resume r) {
         int index = getIndex(r.getUuid());
-        if (index <= INDEX_MISSING_RESUME) {
+        if (index < 0) {
             System.out.println("Resume not found");
         } else {
             storage[index] = r;
@@ -32,7 +31,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
         if (size >= STORAGE_LIMIT) {
             System.out.println("The resume database is full");
-        } else if (index <= INDEX_MISSING_RESUME) {
+        } else if (index < 0) {
             saveResume(index, r);
         } else {
             System.out.println("There is already such a resume");
@@ -41,7 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index <= INDEX_MISSING_RESUME) {
+        if (index < 0) {
             System.out.println("Resume " + uuid + " not exist");
             return null;
         }
@@ -50,7 +49,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index > INDEX_MISSING_RESUME) {
+        if (index >= 0) {
             deleteResume(index);
         } else {
             printResumeNotFound(uuid);
