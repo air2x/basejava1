@@ -3,9 +3,8 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractArrayStorageTest {
@@ -20,7 +19,7 @@ public abstract class AbstractArrayStorageTest {
         this.storage = storage;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws StorageException {
         storage.clear();
         storage.save(new Resume(UUID_1));
@@ -70,7 +69,11 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    public void getNotExist() throws NotExistStorageException {
-        storage.get("dummy");
+    public void getNotExist()  {
+        try {
+            storage.get("dummy");
+        } catch (NotExistStorageException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
