@@ -83,7 +83,6 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void saveAlreadyExist() {
-        storage.clear();
         ExistStorageException thrown = Assertions.assertThrows(ExistStorageException.class, () ->
                 storage.save(new Resume(UUID_1)));
         Assertions.assertEquals("Resume uuid1 already exist", thrown.getMessage());
