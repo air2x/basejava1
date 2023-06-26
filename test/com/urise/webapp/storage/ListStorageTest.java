@@ -1,36 +1,14 @@
 package com.urise.webapp.storage;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
 
-import static org.junit.jupiter.api.Assertions.*;
+public class ListStorageTest extends AbstractArrayStorageTest {
 
-class ListStorageTest {
-
-    @Test
-    void clear() {
+    public ListStorageTest() {
+        super(new ListStorage());
     }
 
-    @Test
-    void update() {
-    }
-
-    @Test
-    void save() {
-    }
-
-    @Test
-    void get() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void getAll() {
-    }
-
-    @Test
-    void size() {
+    @Ignore
+    public void arrayOverflowTest() {
     }
 }
