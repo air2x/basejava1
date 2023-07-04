@@ -20,12 +20,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     protected void doUpdate(Object searchKey, Resume r) {
-        searchKey = getSearchKey(r.getUuid());
         storage[(int) searchKey] = r;
     }
 
     protected void doSave(Object searchKey, Resume r) throws StorageException {
-        searchKey = getSearchKey(r.getUuid());
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {

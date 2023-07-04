@@ -13,24 +13,30 @@ public abstract class AbstractStorage implements Storage {
         doUpdate(searchKey, r);
     }
 
+    @Override
+    public void save(Resume r) throws StorageException {
+        Object searchKey = getNotExistingSearchKey(r.getUuid());
+        doSave(searchKey, r);
+    }
+
+    @Override
+    public Resume get(String uuid) throws NotExistStorageException {
+        Object searchKey = getExistingSearchKey(uuid);
+        return doGet(searchKey);
+    }
+
+    @Override
+    public void delete(String uuid) throws NotExistStorageException {
+        Object searchKey = getExistingSearchKey(uuid);
+        doDelete(searchKey);
+    }
+
     private Object getExistingSearchKey(String uuid) throws NotExistStorageException {
         Object searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
         return searchKey;
-    }
-
-    protected abstract boolean isExist(Object searchKey);
-
-    protected abstract Object getSearchKey(String uuid);
-
-    protected abstract void doUpdate(Object searchKey, Resume r);
-
-    @Override
-    public void save(Resume r) throws StorageException {
-        Object searchKey = getNotExistingSearchKey(r.getUuid());
-        doSave(searchKey, r);
     }
 
     private Object getNotExistingSearchKey(String uuid) throws ExistStorageException {
@@ -41,21 +47,15 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
+    protected abstract boolean isExist(Object searchKey);
+
+    protected abstract Object getSearchKey(String uuid);
+
+    protected abstract void doUpdate(Object searchKey, Resume r);
+
     protected abstract void doSave(Object searchKey, Resume r) throws StorageException;
 
-    @Override
-    public Resume get(String uuid) throws NotExistStorageException {
-        Object searchKey = getExistingSearchKey(uuid);
-        return doGet(searchKey);
-    }
-
     protected abstract Resume doGet(Object searchKey);
-
-    @Override
-    public void delete(String uuid) throws NotExistStorageException {
-        Object searchKey = getExistingSearchKey(uuid);
-        doDelete(searchKey);
-    }
 
     protected abstract void doDelete(Object searchKey);
 }

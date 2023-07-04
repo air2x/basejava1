@@ -16,7 +16,7 @@ public interface Storage {
 
     void delete(String uuid) throws NotExistStorageException;
 
-    Resume[] getAll();
+    Object[] getAll();
 
     int size();
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    List<Resume> storageList = new ArrayList<>();
+    private final List<Resume> storageList = new ArrayList<>();
 
     @Override
     public void clear() {
