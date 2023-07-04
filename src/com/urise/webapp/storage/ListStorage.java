@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -16,43 +14,38 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume r) throws NotExistStorageException {
-        int index = storageList.indexOf(r);
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            storageList.set(index, r);
-        }
+    protected boolean isExist(Object searchKey) {
+        return (int) searchKey >= 0;
     }
 
     @Override
-    public void save(Resume r) throws ExistStorageException {
-        int index = storageList.indexOf(r);
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            storageList.add(r);
+    protected Object getSearchKey(String uuid) {
+        for (int i = 0; i < size(); i++) {
+            if (uuid.equals(storageList.get(i).getUuid())) {
+                return i;
+            }
         }
+        return -1;
     }
 
     @Override
-    public Resume get(String uuid) throws NotExistStorageException {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return storageList.get(index);
-        }
+    protected void doUpdate(Object searchKey, Resume r) {
+        storageList.set((int) searchKey, r);
     }
 
     @Override
-    public void delete(String uuid) throws NotExistStorageException {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            storageList.remove(index);
-        }
+    protected void doSave(Object searchKey, Resume r) {
+        storageList.add(r);
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return storageList.get((int) searchKey);
+    }
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        storageList.remove((int) searchKey);
     }
 
     @Override
@@ -63,15 +56,5 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return storageList.size();
-    }
-
-    protected int getIndex(String uuid) {
-        Resume[] resumes = storageList.toArray(new Resume[0]);
-        for (int i = 0; i < resumes.length; i++) {
-            if (uuid.equals(resumes[i].getUuid())) {
-                return i;
-            }
-        }
-        return -1;
     }
 }
