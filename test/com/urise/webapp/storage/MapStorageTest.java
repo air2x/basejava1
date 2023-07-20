@@ -1,14 +1,8 @@
 package com.urise.webapp.storage;
 
-import org.junit.Ignore;
-
-class MapStorageTest extends AbstractArrayStorageTest {
+class MapStorageTest extends AbstractStorageTest {
 
     public MapStorageTest() {
         super(new MapStorage());
-    }
-
-    @Ignore
-    public void arrayOverflowTest() {
     }
 }
