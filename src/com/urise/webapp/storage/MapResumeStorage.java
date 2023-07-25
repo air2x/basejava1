@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MapResumeStorage extends AbstractStorage {
-    private final HashMap<String, Resume> storageMapResume = new HashMap<>();
+    private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected boolean isExist(Object resume) {
@@ -17,17 +18,17 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storageMapResume.get(uuid);
+        return storage.get(uuid);
     }
 
     @Override
     protected void doUpdate(Object resume, Resume r) {
-        storageMapResume.put(r.getUuid(), r);
+        storage.put(r.getUuid(), r);
     }
 
     @Override
     protected void doSave(Object searchKey, Resume r) {
-        storageMapResume.put(r.getUuid(), r);
+        storage.put(r.getUuid(), r);
     }
 
     @Override
@@ -37,23 +38,21 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object resume) {
-        storageMapResume.remove(((Resume) resume).getUuid());
+        storage.remove(((Resume) resume).getUuid());
     }
 
     @Override
     public void clear() {
-        storageMapResume.clear();
+        storage.clear();
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> mapSort = new ArrayList<>(storageMapResume.values());
-        Collections.sort(mapSort);
-        return mapSort;
+    public List<Resume> doGetAllSorted() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
     public int size() {
-        return storageMapResume.size();
+        return storage.size();
     }
 }

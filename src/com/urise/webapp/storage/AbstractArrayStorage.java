@@ -40,7 +40,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         deleteResume((int) searchKey);
     }
 
-    public final List<Resume> getAllSorted() {
+    public final List<Resume> doGetAllSorted() {
         return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
