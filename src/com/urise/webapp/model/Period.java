@@ -6,24 +6,24 @@ import java.util.List;
 import java.util.Objects;
 
 public class Period extends Company {
-    private List<LocalDate> startDates = new ArrayList<>();
-    private List<LocalDate> endDates = new ArrayList<>();
+    private LocalDate startDates;
+    private LocalDate endDates;
     private String description;
     private String title;
 
-    public List<LocalDate> getStartDates() {
+    public LocalDate getStartDates() {
         return startDates;
     }
 
-    public void setStartDates(List<LocalDate> startDates) {
+    public void setStartDates(LocalDate startDates) {
         this.startDates = startDates;
     }
 
-    public List<LocalDate> getEndDates() {
+    public LocalDate getEndDates() {
         return endDates;
     }
 
-    public void setEndDates(List<LocalDate> endDates) {
+    public void setEndDates(LocalDate endDates) {
         this.endDates = endDates;
     }
 
