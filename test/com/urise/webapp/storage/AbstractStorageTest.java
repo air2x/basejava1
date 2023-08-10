@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
@@ -33,6 +34,8 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
     private static final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
     private static final Resume RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+
+
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
