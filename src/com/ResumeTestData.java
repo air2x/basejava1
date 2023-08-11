@@ -1,3 +1,5 @@
+package com;
+
 import com.urise.webapp.model.*;
 
 import java.time.LocalDate;
@@ -8,7 +10,7 @@ import java.util.Map;
 
 public class ResumeTestData {
 
-    public static Resume createResume(String uuid, String fullName) {
+    public Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
         Map<ContactType, String> contacts = new HashMap<>();
 

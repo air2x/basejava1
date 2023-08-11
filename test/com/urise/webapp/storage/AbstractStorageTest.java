@@ -1,9 +1,11 @@
 package com.urise.webapp.storage;
 
+import com.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,10 +32,11 @@ public abstract class AbstractStorageTest {
     private static final String UUID_NOT_EXIST = "dummy";
     private static final String FULL_NAME_NOT_EXIST = "dummy";
     protected static final String STORAGE_OVERFLOW = "Storage overflow";
-    private static final Resume RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
-    private static final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
-    private static final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
-    private static final Resume RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+    protected static ResumeTestData rst = new ResumeTestData();
+    private static final Resume RESUME_1 = rst.createResume(UUID_1, FULL_NAME_1);
+    private static final Resume RESUME_2 = rst.createResume(UUID_2, FULL_NAME_2);
+    private static final Resume RESUME_3 = rst.createResume(UUID_3, FULL_NAME_3);
+    private static final Resume RESUME_4 = rst.createResume(UUID_4, FULL_NAME_4);
 
 
 
@@ -50,16 +53,16 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void size() {
+    public void size() throws StorageException {
         assertSize(3);
     }
 
-    public void assertSize(int size) {
+    public void assertSize(int size) throws StorageException {
         assertEquals(size, storage.size());
     }
 
     @Test
-    public void clear() {
+    public void clear() throws StorageException {
         storage.clear();
         assertSize(0);
         Resume[] resumes = new Resume[0];
@@ -94,7 +97,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void delete() throws NotExistStorageException {
+    public void delete() throws StorageException {
         storage.delete(UUID_1);
         assertSize(2);
         NotExistStorageException thrown = Assertions.assertThrows(NotExistStorageException.class, () ->
@@ -107,7 +110,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAllSorted() {
+    public void getAllSorted() throws StorageException {
         Resume[] resumes = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
         assertArrayEquals(resumes, storage.getAllSorted().toArray());
     }

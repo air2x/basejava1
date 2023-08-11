@@ -1,3 +1,5 @@
+package com;
+
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ListStorage;
@@ -64,7 +66,7 @@ public class MainCollections {
         }
     }
 
-    static void printAll() {
+    static void printAll() throws StorageException {
         List<Resume> all = ARRAY_STORAGE.getAllSorted();
         System.out.println("----------------------------");
         if (all.size() == 0) {
