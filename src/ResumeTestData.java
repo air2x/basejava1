@@ -1,5 +1,6 @@
 import com.urise.webapp.model.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,6 @@ public class ResumeTestData {
         CompanySection experience = new CompanySection();
         CompanySection education = new CompanySection();
 
-        Period period = new Period();
-        period.setDescription("Создание, организация и проведение Java онлайн проектов и стажировок.");
-
         personal.setText("Аналитический склад ума, сильная логика, + креативность, инициативность. Пурист кода и " +
                 "архитектуры.");
         position.setText("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
@@ -43,20 +41,30 @@ public class ResumeTestData {
                 "комплексных DIY смет");
         achievementList.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. " +
                 "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
-
         achievement.setList(achievementList);
+
+        List<String> qualificationsList = new ArrayList<>();
+        qualificationsList.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
+        qualificationsList.add("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy");
+        qualifications.setList(qualificationsList);
 
         resume.setSections(sections);
 
         List<Company> companies = new ArrayList<>();
         List<Period> periods = new ArrayList<>();
         Company company1 = new Company();
-
-        company1.setName("СПНИУИТМиТ");
-        company1.setWebsite("www.spbu.ru");
+        Period period = new Period();
+        period.setDescription("Создание, организация и проведение Java онлайн проектов и стажировок.");
+        period.setTitle("Автор проекта.");
+        company1.setName("Java Online Projects");
+        company1.setWebsite("https://javaops.ru/");
         company1.setPeriods(periods);
-
+        period.setStartDates(LocalDate.of(2013, 10, 1));
+        period.setEndDates(LocalDate.now());
+        company1.setPeriods(periods);
         companies.add(company1);
+
+        experience.setCompanies(companies);
 
         sections.put(SectionType.PERSONAL, personal);
         sections.put(SectionType.OBJECTIVE, position);

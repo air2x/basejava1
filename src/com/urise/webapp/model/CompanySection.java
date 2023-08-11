@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class CompanySection extends Section {
-    private final List<Company> companies = new ArrayList<>();
+    private List<Company> companies = new ArrayList<>();
 
     public List<Company> getCompanies() {
         return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
     }
 
     @Override
