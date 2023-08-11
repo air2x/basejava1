@@ -35,7 +35,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     @Override
-    public void delete(String uuid) throws NotExistStorageException {
+    public void delete(String uuid) throws StorageException {
         LOG.info("Delete " + uuid);
         SK searchKey = getExistingSearchKey(uuid);
         doDelete(searchKey);
@@ -58,7 +58,7 @@ public abstract class AbstractStorage<SK> implements Storage {
         return searchKey;
     }
 
-    public List<Resume> getAllSorted() {
+    public List<Resume> getAllSorted() throws StorageException {
         LOG.info("getAllSorted");
         List<Resume> list = doGetAllSorted();
         Collections.sort(list);
@@ -75,8 +75,8 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract Resume doGet(SK searchKey);
 
-    protected abstract void doDelete(SK searchKey);
+    protected abstract void doDelete(SK searchKey) throws StorageException;
 
-    protected abstract List<Resume> doGetAllSorted();
+    protected abstract List<Resume> doGetAllSorted() throws StorageException;
 
 }

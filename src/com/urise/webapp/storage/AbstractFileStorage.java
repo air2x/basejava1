@@ -5,11 +5,12 @@ import com.urise.webapp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends  AbstractStorage<File> {
-    private File directory;
+public abstract class AbstractFileStorage extends AbstractStorage<File> {
+    private final File directory;
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory must not be nill");
@@ -21,6 +22,7 @@ public abstract class AbstractFileStorage extends  AbstractStorage<File> {
         }
         this.directory = directory;
     }
+
     @Override
     protected boolean isExist(File file) {
         return file.exists();
@@ -50,30 +52,52 @@ public abstract class AbstractFileStorage extends  AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException;
-
     @Override
     protected Resume doGet(File file) {
-        return doRead(file);
-    }
-
-    protected abstract Resume doRead(File file);
-
-    @Override
-    protected void doDelete(File file) {
-        file.delete();
+        try {
+            return doRead(file);
+        } catch (StorageException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    protected abstract List<Resume> doGetAllSorted();
-
-    @Override
-    public void clear() {
-        directory.delete();
+    protected void doDelete(File file) throws StorageException {
+        if (!file.delete()) {
+            throw new StorageException("do not deleted", file.getName());
+        }
     }
 
     @Override
-    public int size() {
-        return directory.listFiles().length;
+    protected List<Resume> doGetAllSorted() throws StorageException {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("directory null", null);
+        }
+        List<Resume> resumes = new ArrayList<>();
+        for (File file : files) {
+            resumes.add(doGet(file));
+        }
+        return resumes;
     }
+
+    @Override
+    public void clear() throws StorageException {
+        if (!directory.delete()) {
+            throw new StorageException("directory do not deleted", directory.getName());
+        }
+    }
+
+    @Override
+    public int size() throws StorageException {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("directory null", null);
+        }
+        return files.length;
+    }
+
+    protected abstract void doWrite(Resume r, File file) throws IOException;
+
+    protected abstract Resume doRead(File file) throws StorageException;
 }

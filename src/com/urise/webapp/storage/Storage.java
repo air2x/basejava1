@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface Storage {
 
-    void clear();
+    void clear() throws StorageException;
 
     void update(Resume r) throws NotExistStorageException;
 
@@ -16,9 +16,9 @@ public interface Storage {
 
     Resume get(String uuid) throws NotExistStorageException;
 
-    void delete(String uuid) throws NotExistStorageException;
+    void delete(String uuid) throws StorageException;
 
-    List<Resume> getAllSorted();
+    List<Resume> getAllSorted() throws StorageException;
 
-    int size();
+    int size() throws StorageException;
 }
