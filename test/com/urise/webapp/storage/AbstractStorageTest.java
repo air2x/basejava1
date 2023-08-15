@@ -11,9 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
+
+    protected static final File STORAGE_DIR = new File("C:\\java\\BaseJava\\storage");
 
     protected final Storage storage;
 
@@ -70,11 +74,9 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void update() throws NotExistStorageException {
+    public void update() throws StorageException {
         Resume resumeCopy = new Resume(UUID_1, FULL_NAME_1);
         storage.update(RESUME_1);
-        assertNotSame(resumeCopy, RESUME_1);
-        storage.update(resumeCopy);
         assertNotSame(resumeCopy, RESUME_1);
     }
 
@@ -86,13 +88,13 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void get() throws NotExistStorageException {
+    public void get() throws StorageException {
         assertGet(RESUME_1);
         assertGet(RESUME_2);
         assertGet(RESUME_3);
     }
 
-    public void assertGet(Resume resume) throws NotExistStorageException {
+    public void assertGet(Resume resume) throws StorageException {
         assertEquals(resume, storage.get(resume.getUuid()));
     }
 

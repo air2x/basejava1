@@ -14,7 +14,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
     @Override
-    public void update(Resume r) throws NotExistStorageException {
+    public void update(Resume r) throws StorageException {
         LOG.info("Update " + r);
         SK searchKey = getExistingSearchKey(r.getUuid());
         doUpdate(searchKey, r);
@@ -28,7 +28,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     @Override
-    public Resume get(String uuid) throws NotExistStorageException {
+    public Resume get(String uuid) throws StorageException {
         LOG.info("Get " + uuid);
         SK searchKey = getExistingSearchKey(uuid);
         return doGet(searchKey);
@@ -69,11 +69,11 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract SK getSearchKey(String uuid);
 
-    protected abstract void doUpdate(SK searchKey, Resume r);
+    protected abstract void doUpdate(SK searchKey, Resume r) throws StorageException;
 
     protected abstract void doSave(SK searchKey, Resume r) throws StorageException;
 
-    protected abstract Resume doGet(SK searchKey);
+    protected abstract Resume doGet(SK searchKey) throws StorageException;
 
     protected abstract void doDelete(SK searchKey) throws StorageException;
 

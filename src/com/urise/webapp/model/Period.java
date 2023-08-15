@@ -1,11 +1,12 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-public class Period extends Company {
+public class Period extends Company implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private LocalDate startDates;
     private LocalDate endDates;
     private String description;
@@ -49,7 +50,8 @@ public class Period extends Company {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Period period = (Period) o;
-        return startDates.equals(period.startDates) && endDates.equals(period.endDates) && Objects.equals(description, period.description) && title.equals(period.title);
+        return startDates.equals(period.startDates) && endDates.equals(period.endDates) && Objects.equals(description,
+                period.description) && title.equals(period.title);
     }
 
     @Override
