@@ -33,9 +33,6 @@ public class MainFile {
 //        }
 
         searchFiles(new File("C:/java/BaseJava/basejava/src/"), 0);
-//        for (File file1 : listFile) {
-//            System.out.println(file1.getName());
-//        }
     }
 
     private static void searchFiles(File file, int level) {
