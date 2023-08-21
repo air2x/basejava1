@@ -32,14 +32,13 @@ public class MainFile {
 //            throw new RuntimeException(e);
 //        }
 
-        List<File> listFile = new ArrayList<>();
-        searchFiles(new File("C:/java/BaseJava/basejava/src/"), listFile, 0);
+        searchFiles(new File("C:/java/BaseJava/basejava/src/"), 0);
 //        for (File file1 : listFile) {
 //            System.out.println(file1.getName());
 //        }
     }
 
-    private static void searchFiles(File file, List<File> listFile, int level) {
+    private static void searchFiles(File file, int level) {
         String str = repeat(level, "    ");
         if (!file.isFile()) {
             File[] directoryFiles = file.listFiles();
@@ -47,10 +46,9 @@ public class MainFile {
                 for (File file1 : directoryFiles) {
                     if (!file1.isFile()) {
                         System.out.println(str + "Directory - " + file1.getName());
-                        searchFiles(file1, listFile, level++);
+                        searchFiles(file1, level++);
                     } else {
                         System.out.println(str + "File - " + file1.getName());
-                        listFile.add(file1);
                     }
                 }
             }
