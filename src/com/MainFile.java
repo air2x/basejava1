@@ -33,25 +33,31 @@ public class MainFile {
 //        }
 
         List<File> listFile = new ArrayList<>();
-        searchFiles(new File("C:/java/BaseJava/basejava/src/"), listFile);
-        for (File file1 : listFile) {
-            System.out.println(file1.getName());
-        }
+        searchFiles(new File("C:/java/BaseJava/basejava/src/"), listFile, 0);
+//        for (File file1 : listFile) {
+//            System.out.println(file1.getName());
+//        }
     }
 
-    private static void searchFiles(File file, List<File> listFile) {
+    private static void searchFiles(File file, List<File> listFile, int level) {
+        String str = repeat(level, "    ");
         if (!file.isFile()) {
             File[] directoryFiles = file.listFiles();
             if (directoryFiles != null) {
                 for (File file1 : directoryFiles) {
                     if (!file1.isFile()) {
-                        searchFiles(file1, listFile);
+                        System.out.println(str + "Directory - " + file1.getName());
+                        searchFiles(file1, listFile, level++);
                     } else {
-                        System.out.println(file1.getName());
+                        System.out.println(str + "File - " + file1.getName());
                         listFile.add(file1);
                     }
                 }
             }
         }
+    }
+
+    private static String repeat(int n, String value) {
+        return new String(new char[n]).replace("\0", value);
     }
 }
