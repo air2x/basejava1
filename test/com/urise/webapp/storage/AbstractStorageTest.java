@@ -10,14 +10,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
-
-    protected static final File STORAGE_DIR = new File("C:\\java\\BaseJava\\storage");
+    protected static final String STORAGE_DIR_STRING = "C:\\java\\BaseJava\\testStorage";
+    protected static final File STORAGE_DIR = new File(STORAGE_DIR_STRING);
 
     protected final Storage storage;
 
