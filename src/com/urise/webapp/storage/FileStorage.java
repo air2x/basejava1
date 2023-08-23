@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serializer.StreamSerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -74,7 +75,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> doGetAllSorted() throws StorageException {
         List<Resume> resumes = new ArrayList<>();
-        for (File file : checkNullDirectory()) {
+        for (File file : getFiles()) {
             resumes.add(doGet(file));
         }
         return resumes;
@@ -82,17 +83,17 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() throws StorageException {
-        for (File file : checkNullDirectory()) {
+        for (File file : getFiles()) {
             doDelete(file);
         }
     }
 
     @Override
     public int size() throws StorageException {
-        return checkNullDirectory().length;
+        return getFiles().length;
     }
 
-    private File[] checkNullDirectory() throws StorageException {
+    private File[] getFiles() throws StorageException {
         File[] files = directory.listFiles();
         if (files == null) {
             throw new StorageException("directory null", null);
