@@ -14,7 +14,7 @@ public class ObjectStreamSerializer implements StreamSerializer {
     }
 
     @Override
-    public Resume doRead(InputStream is) throws IOException, StorageException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {

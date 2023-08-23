@@ -56,7 +56,7 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected Resume doGet(Path path) throws StorageException {
+    protected Resume doGet(Path path) {
         try {
             return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
@@ -75,24 +75,12 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> doGetAllSorted() {
-        return getFilesList().map(path -> {
-            try {
-                return doGet(path);
-            } catch (StorageException e) {
-                throw new RuntimeException(e);
-            }
-        }).collect(Collectors.toList());
+        return getFilesList().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        getFilesList().forEach(path -> {
-            try {
-                doDelete(path);
-            } catch (StorageException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        getFilesList().forEach(this::doDelete);
     }
 
     @Override

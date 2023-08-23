@@ -56,7 +56,7 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume doGet(File file) throws StorageException {
+    protected Resume doGet(File file) {
         try {
             return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(file.toPath())));
         } catch (IOException e) {
@@ -73,12 +73,8 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> doGetAllSorted() throws StorageException {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("directory null", null);
-        }
         List<Resume> resumes = new ArrayList<>();
-        for (File file : files) {
+        for (File file : checkNullDirectory()) {
             resumes.add(doGet(file));
         }
         return resumes;
@@ -86,20 +82,21 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() throws StorageException {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                doDelete(file);
-            }
+        for (File file : checkNullDirectory()) {
+            doDelete(file);
         }
     }
 
     @Override
     public int size() throws StorageException {
+        return checkNullDirectory().length;
+    }
+
+    private File[] checkNullDirectory() throws StorageException {
         File[] files = directory.listFiles();
         if (files == null) {
             throw new StorageException("directory null", null);
         }
-        return files.length;
+        return files;
     }
 }
