@@ -12,6 +12,9 @@ public class Company extends CompanySection implements Serializable {
     private String website;
     private List<Period> periods = new ArrayList<>();
 
+    public Company() {
+    }
+
     public String getName() {
         return name;
     }

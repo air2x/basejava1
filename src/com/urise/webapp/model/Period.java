@@ -12,6 +12,9 @@ public class Period extends Company implements Serializable {
     private String description;
     private String title;
 
+    public Period() {
+    }
+
     public LocalDate getStartDates() {
         return startDates;
     }

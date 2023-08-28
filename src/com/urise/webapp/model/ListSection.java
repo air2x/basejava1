@@ -9,6 +9,9 @@ public class ListSection extends Section {
 
     private List<String> list;
 
+    public ListSection() {
+    }
+
     public List<String> getList() {
         return list;
     }
